@@ -14,7 +14,7 @@ app.use('/uploads', express.static('uploads')); // ✅ Make uploads publicly acc
 
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://jnubongshi:jnubongshi007@cluster0.xdg6xtz.mongodb.net/jnubongshi?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://formman:formman007@cluster0.xjqnh.mongodb.net/form-to-mongodb?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.log('❌ DB error:', err));
 
