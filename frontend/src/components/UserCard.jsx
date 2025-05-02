@@ -9,7 +9,7 @@ function UserCard() {
   const usersPerPage = 6;
 
   useEffect(() => {
-    axios.get("http://localhost:3000/users")
+    axios.get("https://bongshi-19-backend-80v1.onrender.com/users")
       .then((res) => {
         setUsers(res.data.users);
       })
