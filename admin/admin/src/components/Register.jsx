@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 
 const Register = () => {
-  const fileInputRef = useRef(null); // <-- Add this ref
+  const fileInputRef = useRef(null);
 
-  const [formData, setFormData] = useState({
+  const emptyFormData = {
     name: '',
     department: '',
     bloodGroup: '',
@@ -15,7 +15,9 @@ const Register = () => {
     busStopage: '',
     photo: null,
     facebook: ''
-  });
+  };
+
+  const [formData, setFormData] = useState(emptyFormData);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -23,47 +25,45 @@ const Register = () => {
   };
 
   const handleFileChange = e => {
-    setFormData(prev => ({ ...prev, photo: e.target.files[0] }));
+    const file = e.target.files[0];
+    console.log('Selected photo:', file); // Debug
+    setFormData(prev => ({ ...prev, photo: file }));
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
     const data = new FormData();
+
+    // Append all fields except photo
     Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, value);
+      if (key !== 'photo') {
+        data.append(key, value);
+      }
     });
+
+    // Append photo if selected
+    if (formData.photo) {
+      data.append('photo', formData.photo);
+    }
 
     try {
       const res = await fetch('https://bongshi-19-backend-80v1.onrender.com/submit', {
         method: 'POST',
         body: data,
       });
+
       const result = await res.json();
       console.log(result);
       alert('✅ Registration successful!');
 
-      // ✅ Reset the form
-      setFormData({
-        name: '',
-        department: '',
-        bloodGroup: '',
-        phone: '',
-        school: '',
-        college: '',
-        presentAddress: '',
-        permanentAddress: '',
-        busStopage: '',
-        photo: null,
-        facebook: ''
-      });
-
-      // ✅ Clear the file input manually
+      // Reset form state and file input
+      setFormData(emptyFormData);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
 
     } catch (err) {
-      console.error(err);
+      console.error('❌ Upload error:', err);
       alert('❌ Registration failed!');
     }
   };
@@ -77,15 +77,17 @@ const Register = () => {
 
       <select name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} className="w-full p-2 border rounded">
         <option value="">Select Blood Group</option>
-        {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(b => <option key={b} value={b}>{b}</option>)}
+        {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(b => (
+          <option key={b} value={b}>{b}</option>
+        ))}
       </select>
 
       <input name="phone" type="text" value={formData.phone} onChange={handleChange} placeholder="Phone" className="w-full p-2 border rounded" />
       <input name="school" type="text" value={formData.school} onChange={handleChange} placeholder="School" className="w-full p-2 border rounded" />
       <input name="college" type="text" value={formData.college} onChange={handleChange} placeholder="College" className="w-full p-2 border rounded" />
 
-      <textarea name="presentAddress" value={formData.presentAddress} onChange={handleChange} placeholder="Present Address" className="w-full p-2 border rounded"></textarea>
-      <textarea name="permanentAddress" value={formData.permanentAddress} onChange={handleChange} placeholder="Permanent Address" className="w-full p-2 border rounded"></textarea>
+      <textarea name="presentAddress" value={formData.presentAddress} onChange={handleChange} placeholder="Present Address" className="w-full p-2 border rounded" />
+      <textarea name="permanentAddress" value={formData.permanentAddress} onChange={handleChange} placeholder="Permanent Address" className="w-full p-2 border rounded" />
 
       <select name="busStopage" value={formData.busStopage} onChange={handleChange} className="w-full p-2 border rounded">
         <option value="">Select Bus Stop</option>
@@ -93,7 +95,9 @@ const Register = () => {
           "Jagannath University", "Gulisthan", "Shahbag", "Bata Signal Bus Stop",
           "Elephant Road", "Kalabagan", "Shyamoli", "Technical", "Gabtoli",
           "Hemayetpur", "Savar Bus Stand", "Nobinagar",
-        ].map(s => <option key={s} value={s}>{s}</option>)}
+        ].map(s => (
+          <option key={s} value={s}>{s}</option>
+        ))}
       </select>
 
       <input
@@ -101,7 +105,7 @@ const Register = () => {
         type="file"
         accept="image/*"
         onChange={handleFileChange}
-        ref={fileInputRef} // <-- Use the ref
+        ref={fileInputRef}
         className="w-full p-2 border rounded"
       />
 
