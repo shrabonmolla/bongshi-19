@@ -34,7 +34,7 @@ const Register = () => {
     });
 
     try {
-      const res = await fetch('https://bongshi-19-backend.onrender.com/submit', {
+      const res = await fetch('https://bongshi-19-backend-80v1.onrender.com/submit', {
         method: 'POST',
         body: data,
       });
