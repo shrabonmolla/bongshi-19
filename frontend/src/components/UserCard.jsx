@@ -45,7 +45,7 @@ function UserCard() {
           currentUsers.map((user) => (
             <div key={user._id} className="bg-gradient-to-b from-gray-200 to-transparent h-64 w-full shadow-lg rounded-lg p-4 flex flex-col items-center">
               <img
-                src={`http://localhost:3000${user.photo}`}
+                src={`https://bongshi-19-backend-80v1.onrender.com${user.photo}`}
                 alt={user.name}
                 className="w-24 h-24 object-cover rounded-full mb-4"
               />
