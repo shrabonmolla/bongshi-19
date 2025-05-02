@@ -51,12 +51,6 @@ const userSchema = new mongoose.Schema({
   photo: String,
   facebook: {  // Add new field for Facebook link
     type: String,
-    validate: {
-      validator: function(v) {
-        return /^(https?:\/\/)?(www\.)?facebook\.com\/[a-zA-Z0-9(\.\?)?(\&=)%\-_]+$/.test(v);
-      },
-      message: props => `${props.value} is not a valid Facebook URL!`
-    }
   }
 });
 
