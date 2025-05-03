@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const cors = require('cors');
 const fs = require('fs'); // ✅ Needed to check/create upload folder
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -10,7 +11,8 @@ const port = 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); // ✅ Make uploads publicly accessible
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+ // ✅ Make uploads publicly accessible
 
 
 // MongoDB connection
