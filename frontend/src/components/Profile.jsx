@@ -9,7 +9,7 @@ function Profile() {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/users")
+    fetch("https://bongshi-19-backend-80v1.onrender.com/users")
       .then((res) => res.json())
       .then((data) => {
         const foundUser = data.users.find(user => user._id === id);
@@ -39,7 +39,7 @@ function Profile() {
         <div className="flex justify-center ">
           <div className="relative w-32 h-32">
             <img
-              src={`http://localhost:3000${profile.photo}`}
+              src={`https://bongshi-19-backend-80v1.onrender.com${profile.photo}`}
               alt={profile.name}
               className="w-full h-full rounded-full shadow-md border-4 border-white object-cover"
             />
